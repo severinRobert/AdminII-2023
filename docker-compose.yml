@@ -1,0 +1,49 @@
+
+version: "3.3"
+services:
+  # web:
+  #   image: nginx:alpine
+  #   links:
+  #     - db:database
+  #   ports:
+  #     - 80:80
+  #   networks:
+  #     - private-net
+  # db:
+  #   image: mysql:5.7
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: root
+  #     MYSQL_DATABASE: database
+  #     MYSQL_USER: user
+  #     MYSQL_PASSWORD: password
+  #   volumes:
+  #     - db-data:/var/lib/mysql
+  #   networks:
+  #     - private-net
+  dns:
+    image: ubuntu/bind99
+    ports:
+      - 53:53/udp
+      - 53:53/tcp
+    volumes:
+      - ./dns:/etc/bind 
+    networks:
+      dmz_net:
+        ipv4_address: 192.168.0.1
+  user1:
+    image: busybox
+    networks:
+      dmz_net:
+        ipv4_address: 192.168.0.2
+
+networks:
+  dmz_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.0.0/24
+  trusted_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.1.0/24
