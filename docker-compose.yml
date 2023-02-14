@@ -21,7 +21,7 @@ services:
   #   networks:
   #     - private-net
   dns:
-    image: ubuntu/bind99
+    image: ubuntu/bind9
     ports:
       - 53:53/udp
       - 53:53/tcp
@@ -29,12 +29,13 @@ services:
       - ./dns:/etc/bind 
     networks:
       dmz_net:
-        ipv4_address: 192.168.0.1
+        ipv4_address: 192.168.0.2
   user1:
     image: busybox
     networks:
       dmz_net:
-        ipv4_address: 192.168.0.2
+        ipv4_address: 192.168.0.3
+  container_name: dns
 
 networks:
   dmz_net:
@@ -47,3 +48,4 @@ networks:
       driver: default
       config:
         - subnet: 192.168.1.0/24
+  container_name: networks
