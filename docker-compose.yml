@@ -22,20 +22,31 @@ services:
   #     - private-net
   dns:
     image: ubuntu/bind9
-    ports:
-      - 53:53/udp
-      - 53:53/tcp
+    expose:
+      - 53/udp
+      - 53/tcp
     volumes:
-      - ./dns:/etc/bind 
+      - ./DNS/named.conf:/etc/bind/named.conf
+      - ./DNS/db.l1-3.ephec-ti.be:/etc/bind/db.l1-3.ephec-ti.be
     networks:
       dmz_net:
         ipv4_address: 192.168.0.2
+    command: named -g
+    container_name: dns
+    deploy:
+     # If the container Exit docker try to restart it 20s after and retry each minute
+     restart_policy:
+       condition: any
+       delay: 20s
+       window: 60s
+
   user1:
-    image: busybox
+    image: ubuntu
     networks:
       dmz_net:
         ipv4_address: 192.168.0.3
-  container_name: 'dns'
+    command: sleep infinity
+    container_name: user1
 
 networks:
   dmz_net:
