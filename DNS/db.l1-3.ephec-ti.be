@@ -21,5 +21,5 @@ www	IN	A	192.168.0.4;
 
 ;Server Mail
 mail	IN	A	192.168.0.5;
-@	IN	MX	10	mail.l1-3.ephec-ti.be;
+@	IN	MX	10	mail;
 
