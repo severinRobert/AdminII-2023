@@ -1,6 +1,6 @@
-$ORIGIN l1-3.ephec-ti.be.
+$ORIGIN woodytoys.lab.
 $TTL	3600
-@	IN	SOA	ns.l1-3.ephec-ti.be.   root.l1-3.ephec-ti.be. (
+@	IN	SOA	ns.woodytoys.lab.   root.woodytoys.lab. (
 
     2022061457 ; serial
     21600      ; refresh after 6 hours
@@ -16,10 +16,5 @@ $TTL	3600
 ns			IN	A	192.168.0.2;
 
 ;Server Web
-b2b	IN	A	192.168.0.4;
-www	IN	A	192.168.0.4;
-
-;Server Mail
-mail	IN	A	192.168.0.5;
-@	IN	MX	10	mail;
+intranet	IN	A	192.168.0.4;
 

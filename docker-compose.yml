@@ -1,6 +1,7 @@
 
 version: "3.3"
 services:
+  # DMZ
   web:
     image: php:apache
     volumes:
@@ -13,9 +14,10 @@ services:
     #   - db:database
     ports:
       - 80:80
+      - 443:443
     networks:
       dmz_net:
-        ipv4_address: 192.168.0.6
+        ipv4_address: 172.16.0.2
     container_name: web
   # db:
   #   image: mysql:5.7
@@ -32,42 +34,82 @@ services:
   #     dmz_net:
   #       ipv4_address: 192.168.0.7
   #   container_name: db
-  dns:
+  soa-publique:
     image: ubuntu/bind9
     expose:
       - 53/udp
       - 53/tcp
     volumes:
       - ./DMZ/DNS/named.conf:/etc/bind/named.conf
-      - ./DMZ/DNS/db.l1-3.ephec-ti.be:/etc/bind/db.l1-3.ephec-ti.be
+      - ./DMZ/DNS/db.woodytoys.be:/etc/bind/db.woodytoys.be
     networks:
       dmz_net:
-        ipv4_address: 192.168.0.2
+        ipv4_address: 172.16.0.4
     command: named -g
-    container_name: dns
+    container_name: soa-publique
     deploy:
-     # If the container Exit docker try to restart it 20s after and retry each minute
      restart_policy:
        condition: any
        delay: 20s
        window: 60s
 
-  user1:
+  # Trusted zone
+  soa-interne:
+    image: ubuntu/bind9
+    expose:
+      - 53/udp
+      - 53/tcp
+    volumes:
+      - ./trusted-zone/DNS/named.conf:/etc/bind/named.conf
+      - ./trusted-zone/DNS/db.woodytoys.be:/etc/bind/db.woodytoys.be
+      - ./trusted-zone/DNS/db.woodytoys.lab:/etc/bind/db.woodytoys.lab
+    networks:
+      trusted_net:
+        ipv4_address: 10.0.0.2
+    command: named -g
+    container_name: soa-interne
+    deploy:
+     restart_policy:
+       condition: any
+       delay: 20s
+       window: 60s
+
+  router:
     image: ubuntu
     networks:
       dmz_net:
-        ipv4_address: 192.168.0.3
+        ipv4_address: 172.16.0.254
+      trusted_net:
+        ipv4_address: 10.0.0.254
+      user_net:
+        ipv4_address: 10.1.0.254
+
+  # Internal network
+  user1:
+    image: ubuntu
+    networks:
+      user_net:
+        ipv4_address: 10.1.0.2
     command: sleep infinity
     container_name: user1
-
+# NETWORKS
 networks:
   dmz_net:
     ipam:
       driver: default
       config:
-        - subnet: 192.168.0.0/24
+        - subnet: 172.16.0.0/24
+        - gateway: 172.16.0.254
+
   trusted_net:
     ipam:
       driver: default
       config:
-        - subnet: 192.168.1.0/24
+        - subnet: 10.0.0.0/24
+        - gateway: 10.0.0.254
+  user_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.1.0.0/16
+        - gateway: 10.1.0.254
