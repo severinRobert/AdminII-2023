@@ -1,7 +1,8 @@
 
 CREATE DATABASE woodytoys;
 
-GRANT SELECT,INSERT ON woodytoys.* TO 'b2b'@'%';
+GRANT SELECT ON woodytoys.produit TO 'b2b'@'%';
+GRANT SELECT,INSERT ON woodytoys.* TO 'interne'@'%';
 
 USE woodytoys
 
