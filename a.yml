@@ -1,0 +1,119 @@
+
+version: "3.3"
+services:
+  # DMZ
+  web:
+    image: php:apache
+    volumes:
+      - ./DMZ/Web/index.html:/var/www/html/index.html
+      - ./DMZ/Web/index.html:/var/www/www.l1-3.ephec-ti.be/index.html
+      - ./DMZ/Web/index.php:/var/www/b2b.l1-3.ephec-ti.be/index.html
+      - ./DMZ/Web/b2b.l2-2.ephec-ti.be.conf:/etc/apache2/sites-available/b2b.l2-2.ephec-ti.be.conf
+      - ./DMZ/Web/www.l2-2.ephec-ti.be.conf:/etc/apache2/sites-available/www.l2-2.ephec-ti.be.conf
+    # links:
+    #   - db:database
+    expose:
+      - 80
+      - 443
+    # networks:
+    #   dmz_net:
+    #     ipv4_address: 172.16.0.2
+    container_name: web
+  # db:
+  #   image: mysql:5.7
+  #   expose:
+  #     - 3306
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: root
+  #     MYSQL_DATABASE: database
+  #     MYSQL_USER: user
+  #     MYSQL_PASSWORD: password
+  #   volumes:
+  #     - ./trusted-zone/DB:/var/lib/mysql
+  #   networks:
+  #     dmz_net:
+  #       ipv4_address: 192.168.0.7
+  #   container_name: db
+  soa-publique:
+    image: ubuntu/bind9
+    expose:
+      - 53/udp
+      - 53/tcp
+    volumes:
+      - ./DMZ/DNS/named.conf:/etc/bind/named.conf
+      - ./DMZ/DNS/db.woodytoys.be:/etc/bind/db.woodytoys.be
+    # networks:
+    #   dmz_net:
+    #     ipv4_address: 172.16.0.4
+    command: named -g
+    container_name: soa-publique
+    deploy:
+     restart_policy:
+       condition: any
+       delay: 20s
+       window: 60s
+
+  # Trusted zone
+  soa-interne:
+    image: ubuntu/bind9
+    expose:
+      - 53/udp
+      - 53/tcp
+    volumes:
+      - ./trusted-zone/DNS/named.conf:/etc/bind/named.conf
+      - ./trusted-zone/DNS/db.woodytoys.be:/etc/bind/db.woodytoys.be
+      - ./trusted-zone/DNS/db.woodytoys.lab:/etc/bind/db.woodytoys.lab
+    # networks:
+    #   trusted_net:
+    #     ipv4_address: 10.0.0.2
+    command: named -g
+    container_name: soa-interne
+    deploy:
+     restart_policy:
+       condition: any
+       delay: 20s
+       window: 60s
+
+  # router:
+  #   image: ubuntu
+  #   networks:
+  #     dmz_net:
+  #       ipv4_address: 172.16.0.1
+  #     database_net:
+  #       ipv4_address: 10.2.0.1
+  #     trusted_net:
+  #       ipv4_address: 10.0.0.1
+  #     user_net:
+  #       ipv4_address: 10.1.0.1
+
+  # Internal network
+  user1:
+    image: alpine
+    # networks:
+    #   user_net:
+    #     ipv4_address: 10.1.0.2
+    command: sleep infinity
+    container_name: user1
+
+# NETWORKS
+networks:
+  dmz_net:
+    ipam:
+      driver: ipvlan
+      config:
+        - subnet: 172.16.0.0/24
+  database_net:
+    ipam:
+      driver: ipvlan
+      config:
+        - subnet: 10.2.0.0/24
+  trusted_net:
+    ipam:
+      driver: ipvlan
+      config:
+        - subnet: 10.0.0.0/24
+  user_net:
+    ipam:
+      driver: ipvlan
+      config:
+        - subnet: 10.1.0.0/16

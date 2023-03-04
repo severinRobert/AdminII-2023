@@ -16,10 +16,10 @@ $TTL	3600
 ns			IN	A	192.168.0.2;
 
 ;Server Web
-b2b	IN	A	10.0.0.1;
-www	IN	A	10.0.0.1;
+b2b	IN	A	10.0.0.2;
+www	IN	A	10.0.0.2;
 
 ;Server Mail
-mail	IN	A	10.0.0.2;
+mail	IN	A	10.0.0.3;
 @	IN	MX	10	mail;
 
