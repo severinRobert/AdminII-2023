@@ -1,8 +1,5 @@
 
-CREATE DATABASE woodytoys;
 
-GRANT SELECT ON woodytoys.produit TO 'b2b'@'%';
-GRANT SELECT,INSERT ON woodytoys.* TO 'interne'@'%';
 
 USE woodytoys
 
@@ -22,6 +19,13 @@ CREATE TABLE `produit` (
   `prix` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 );
+
+
+CREATE USER 'b2b'@'10.0.0.2' IDENTIFIED BY 'password';
+CREATE USER 'intranet'@'10.0.0.2' IDENTIFIED BY 'password';
+
+GRANT SELECT ON woodytoys.produit TO 'b2b'@'10.0.0.2';
+GRANT SELECT,INSERT ON woodytoys.produit TO 'intranet'@'10.0.0.2';
 
 --
 -- Déchargement des données de la table `produit`

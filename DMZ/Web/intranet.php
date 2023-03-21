@@ -2,18 +2,18 @@
 
 <?php
 # Connexion à la base de données
-$db = mysqli_connect('10.0.0.6:3306', 'b2b', 'password', 'woodytoys') or die('Erreur de connection!');
+$db = mysqli_connect('10.0.0.6:3306', 'intranet', 'password', 'woodytoys') or die('Erreur de connection!');
 ?>
 
 <html>
 
 <head>
   <meta charset="UTF-8">
-  <title>Site Web b2b WoodyToys</title>
+  <title>Site Web intranet WoodyToys</title>
 </head>
 
 <body>
-  <h1>Site Web b2b WoodyToys</h1>
+  <h1>Site Web intranet WoodyToys</h1>
 
   <?php
   $query = "SELECT * FROM produit"; # Directive sql permettant de séléctionner tous les éléments de la table "produit".

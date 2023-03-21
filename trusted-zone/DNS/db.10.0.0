@@ -1,0 +1,15 @@
+$TTL 604800 ; 1 semaine
+$ORIGIN 0.0.10.in-addr.arpa.
+@ IN SOA ns.woodytoys.lab. root.woodytoys.lab. (
+    2013020905 ;serial
+    3600 ; refresh (1 hour)
+    3000 ; retry (50 minutes)
+    4619200 ; expire (7 weeks 4 days 11 hours 6 minutes 40 seconds)
+    604800 ; minimum (1 week)
+)
+@ IN NS ns.woodytoys.lab.
+4 IN PTR ns.woodytoys.lab.
+
+2 IN PTR intranet.woodytoys.lab.
+2 IN PTR www.woodytoys.be.
+2 IN PTR b2b.woodytoys.be.

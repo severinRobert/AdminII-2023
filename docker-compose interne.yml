@@ -1,0 +1,74 @@
+
+version: "3.3"
+services:
+  # DMZ
+  web:
+    build: ./DMZ/Web
+    volumes:
+      - ./DMZ/Web/default/index.html:/var/www/html/index.html
+      - ./DMZ/Web/www.html:/var/www/www.woodytoys.be/index.html
+      - ./DMZ/Web/b2b.php:/var/www/b2b.woodytoys.be/index.php
+      - ./DMZ/Web/intranet.php:/var/www/intranet.woodytoys.lab/index.php
+      - ./DMZ/Web/b2b.woodytoys.be.conf:/etc/apache2/sites-available/b2b.woodytoys.be.conf
+      - ./DMZ/Web/www.woodytoys.be.conf:/etc/apache2/sites-available/www.woodytoys.be.conf
+      - ./DMZ/Web/intranet.woodytoys.lab.conf:/etc/apache2/sites-available/intranet.woodytoys.lab.conf
+    links:
+      - db:database
+    expose:
+      - 80
+      - 443
+    container_name: web
+    command: bash -c "docker-php-ext-install mysqli && docker-php-ext-enable mysqli && a2ensite b2b.woodytoys.be.conf && a2ensite www.woodytoys.be.conf && a2ensite intranet.woodytoys.lab.conf && service apache2 start && tail -f /dev/null"
+    networks:
+      dmz_net:
+        ipv4_address: 10.0.0.2
+  db:
+    image: mysql:5.7
+    expose:
+      - 3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: woodytoys
+    volumes:
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      dmz_net:
+        ipv4_address: 10.0.0.6
+    container_name: db
+
+  # Trusted zone
+  soa-interne:
+    image: ubuntu/bind9
+    expose:
+      - 53/udp
+      - 53/tcp
+    volumes:
+      - ./trusted-zone/DNS/named.conf:/etc/bind/named.conf
+      - ./trusted-zone/DNS/db.woodytoys.be:/etc/bind/db.woodytoys.be
+      - ./trusted-zone/DNS/db.woodytoys.lab:/etc/bind/db.woodytoys.lab
+      - ./trusted-zone/DNS/db.10.0.0:/etc/bind/db.10.0.0
+    command: named -g
+    container_name: soa-interne
+    networks:
+      dmz_net:
+        ipv4_address: 10.0.0.4
+
+  # Internal network
+  user1:
+    image: alpine
+    command: ash -c "apk update && apk upgrade && apk add lynx bind-tools && echo -e 'search ephec.be\nnameserver 10.0.0.4\noptions edns0 trust-ad ndots:0' > /etc/resolv.conf && tail -f /dev/null"
+    container_name: user1
+    networks:
+      dmz_net:
+        ipv4_address: 10.0.0.5
+
+networks:
+  dmz_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.0.0/24
+
+# apk update
+# apk add bind-tools vim
+# vim /etc/resolv.conf
