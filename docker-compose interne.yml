@@ -36,6 +36,25 @@ services:
         ipv4_address: 10.0.0.6
     container_name: db
 
+  mail:
+    build: ./DMZ/Mail
+    expose:
+      - 25/tcp   # SMTP
+      - 110/tcp # IMAP
+      - 143/tcp # POP
+    command: bash -c "chown contact /var/mail/contact && chown atelier /var/mail/atelier && chown direction /var/mail/direction && chown secretariat /var/mail/secretariat && chown compta /var/mail/compta && chown commerciaux /var/mail/commerciaux && service postfix start && postmap /etc/postfix/virtual && tail -f /dev/null" #service dovecot start && tail -f /dev/null"
+    volumes:
+      - ./DMZ/Mail/main.cf:/etc/postfix/main.cf
+      - ./DMZ/Mail/virtual:/etc/postfix/virtual
+      #- ./DMZ/Mail/master.cf:/etc/postfix/master.cf
+      #- ./DMZ/Mail/dovecot.conf:/etc/dovecot/dovecot.conf
+      - ./DMZ/Mail/mailbox/:/var/mail/
+    networks:
+      dmz_net:
+        ipv4_address: 10.0.0.7
+    container_name: mail
+
+
   # Trusted zone
   soa-interne:
     image: ubuntu/bind9
@@ -56,7 +75,7 @@ services:
   # Internal network
   user1:
     image: alpine
-    command: ash -c "apk update && apk upgrade && apk add lynx bind-tools && echo -e 'search ephec.be\nnameserver 10.0.0.4\noptions edns0 trust-ad ndots:0' > /etc/resolv.conf && tail -f /dev/null"
+    command: ash -c "apk update && apk upgrade && apk add lynx bind-tools busybox-extras && echo -e 'search ephec.be\nnameserver 10.0.0.4\noptions edns0 trust-ad ndots:0' > /etc/resolv.conf && tail -f /dev/null"
     container_name: user1
     networks:
       dmz_net:

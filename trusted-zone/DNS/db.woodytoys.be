@@ -20,6 +20,6 @@ b2b	IN	A	10.0.0.2;
 www	IN	A	10.0.0.2;
 
 ;Server Mail
-mail	IN	A	10.0.0.3;
+mail	IN	A	10.0.0.7;
 @	IN	MX	10	mail;
 

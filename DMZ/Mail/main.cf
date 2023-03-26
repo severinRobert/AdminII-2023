@@ -1,0 +1,8 @@
+myhostname = mail.woodytoys.be
+mydomain = woodytoys.be
+mail_spool_directory = /var/mail
+mynetworks = 127.0.0.0/8, 10.0.0.0/24
+virtual_alias_maps= hash:/etc/postfix/virtual
+inet_interfaces = all
+maillog_file=/var/log/postfix.log
+smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
