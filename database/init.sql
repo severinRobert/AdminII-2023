@@ -1,17 +1,5 @@
-
-
-
 USE woodytoys
 
---
--- Base de données : `woodytoys`
---
-
--- --------------------------------------------------------
-
---
--- Structure de la table `produit`
---
 
 CREATE TABLE `produit` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -35,3 +23,33 @@ INSERT INTO `produit` (`id`, `nom`, `prix`) VALUES
 (1, 'toupie', 5),
 (2, 'lego', 15),
 (3, 'manette', 60);
+
+
+CREATE DATABASE mail;
+
+USE mail
+
+CREATE USER 'mail'@'10.0.0.7' IDENTIFIED BY 'password';
+
+GRANT SELECT,INSERT ON mail.* TO 'mail'@'10.0.0.7';
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `maildir` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+/* 
+ * INSERT atelier, direction, contact, compta, commerciaux, secretariat
+ */
+INSERT INTO `users` (`username`, `password`, `email`, `maildir`) VALUES
+('atelier', 'atelier', 'atelier@woodytoys.be', '/mail'),
+('direction', 'direction', 'direction@woodytoys.be', '/mail'),
+('contact', 'contact', 'contact@woodytoys.be', '/mail'),
+('compta', 'compta', 'compta@woodytoys.be', '/mail'),
+('commerciaux', 'commerciaux', 'commerciaux@woodytoys.be', '/mail'),
+('secretariat', 'secretariat', 'secretariat@woodytoys.be', '/mail');
+

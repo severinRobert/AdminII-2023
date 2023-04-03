@@ -1,0 +1,5 @@
+user = mail
+password = password
+hosts = localhost
+dbname = mail
+query = SELECT CONCAT(maildir, '/', SUBSTRING_NIDEX(email, '@', -1), '/', SUBSTRING_INDEX(email, '@', 1), '/') FROM users WHERE email = '%s'

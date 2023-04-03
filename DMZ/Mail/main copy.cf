@@ -1,0 +1,51 @@
+# Postfix configuration file
+
+# Enable SASL authentication
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_type = cyrus
+smtpd_sasl_path = smtpd
+smtpd_sasl_authenticated_header = yes
+
+# Use the MySQL database as a source for user account information
+smtpd_sasl_mysql_database = postfix
+smtpd_sasl_mysql_user = postfix
+smtpd_sasl_mysql_password = password
+smtpd_sasl_mysql_query = SELECT password FROM users WHERE email = '%u'
+smtpd_sasl_security_options = noanonymous
+smtpd_sasl_local_domain = $myhostname
+smtpd_sasl_tls_security_options = $smtpd_sasl_security_options
+
+# Configure Postfix to use TLS encryption
+smtp_tls_security_level = may
+smtpd_tls_security_level = may
+smtp_tls_note_starttls_offer = yes
+smtpd_tls_key_file = /etc/ssl/private/server.key
+smtpd_tls_cert_file = /etc/ssl/certs/server.crt
+#smtpd_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+
+# Set the hostname and domain name for outgoing email
+myhostname = mail.woodytoys.be
+mydomain = woodytoys.be
+
+# Set the local network interface
+inet_interfaces = all
+
+# Specify the allowed destinations for outgoing email
+mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
+
+# Specify the location of the virtual mailbox directory
+virtual_mailbox_base = /var/mail/vhosts
+virtual_mailbox_maps = mysql:/etc/postfix/mysql_virtual_mailbox_maps.cf
+virtual_minimum_uid = 1000
+virtual_uid_maps = static:1000
+virtual_gid_maps = static:1000
+
+# Specify the location of the virtual alias file
+virtual_alias_maps = mysql:/etc/postfix/mysql_virtual_alias_maps.cf
+
+# Specify the location of the virtual domain file
+virtual_mailbox_domains = mysql:/etc/postfix/mysql_virtual_domains_maps.cf
+
+maillog_file=/var/log/postfix.log
+smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
+mynetworks = 127.0.0.0/8, 10.0.0.0/24

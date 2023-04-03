@@ -1,8 +1,30 @@
+# Basic settings
+compatibility_level=2
 myhostname = mail.woodytoys.be
 mydomain = woodytoys.be
-mail_spool_directory = /var/mail
-mynetworks = 127.0.0.0/8, 10.0.0.0/24
-virtual_alias_maps= hash:/etc/postfix/virtual
+myorigin = $myhostname
 inet_interfaces = all
+inet_protocols = all
+mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 127.0.0.0/8 10.0.0.0/24
+relay_domains = $mydestination
+alias_maps = mysql:/etc/postfix/mysql_virtual_alias_maps.cf
+virtual_mailbox_domains = mysql:/etc/postfix/mysql_virtual_domains_maps.cf
+virtual_mailbox_maps = mysql:/etc/postfix/mysql_virtual_mailbox_maps.cf
+smtpd_tls_cert_file = /etc/postfix/ssl/server.crt
+smtpd_tls_key_file = /etc/postfix/ssl/server.key
+smtpd_tls_CAfile = /etc/postfix/ssl/ca-certificates.crt
+smtpd_tls_security_level = may
+smtp_tls_security_level = may
+smtp_tls_CAfile = /etc/postfix/ssl/ca-certificates.crt
+smtpd_sasl_auth_enable = yes
+broken_sasl_auth_clients = yes
+#smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+smtpd_sasl_authenticated_header = yes
+smtpd_sasl_security_options = noanonymous
+smtpd_sasl_local_domain = $myhostname
+
+
 maillog_file=/var/log/postfix.log
 smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination

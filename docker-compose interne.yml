@@ -42,7 +42,7 @@ services:
       - 25/tcp   # SMTP
       - 110/tcp # IMAP
       - 143/tcp # POP
-    command: bash -c "chown contact /var/mail/contact && chown atelier /var/mail/atelier && chown direction /var/mail/direction && chown secretariat /var/mail/secretariat && chown compta /var/mail/compta && chown commerciaux /var/mail/commerciaux && service postfix start && postmap /etc/postfix/virtual && tail -f /dev/null" #service dovecot start && tail -f /dev/null"
+    command: bash -c "service postfix start && postmap /etc/postfix/virtual && tail -F /var/log/postfix.log" #service dovecot start && tail -f /dev/null"
     volumes:
       - ./DMZ/Mail/main.cf:/etc/postfix/main.cf
       - ./DMZ/Mail/virtual:/etc/postfix/virtual
