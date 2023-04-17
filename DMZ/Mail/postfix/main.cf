@@ -1,3 +1,5 @@
+compatibility_level=2
+
 myhostname = mail.woodytoys.be
 mydomain = woodytoys.be
 mail_spool_directory = /var/mail
@@ -6,3 +8,6 @@ virtual_alias_maps= hash:/etc/postfix/virtual
 inet_interfaces = all
 maillog_file=/var/log/postfix.log
 smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
+smtpd_sasl_type = dovecot
+virtual_transport = dovecot
+virtual_mailbox_maps = hash:/etc/postfix/virtual
