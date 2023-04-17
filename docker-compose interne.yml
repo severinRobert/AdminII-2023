@@ -42,17 +42,21 @@ services:
       - 25/tcp   # SMTP
       - 110/tcp # IMAP
       - 143/tcp # POP
-    command: bash -c "chown contact /var/mail/contact && chown atelier /var/mail/atelier && chown direction /var/mail/direction && chown secretariat /var/mail/secretariat && chown compta /var/mail/compta && chown commerciaux /var/mail/commerciaux && service postfix start && postmap /etc/postfix/virtual && tail -f /dev/null" #service dovecot start && tail -f /dev/null"
+    command: bash -c "chown root:root /etc/postfix/virtual && chown contact:contact /var/mail/contact && chown atelier:atelier /var/mail/atelier && chown direction:direction /var/mail/direction && chown secretariat:secretariat /var/mail/secretariat && chown compta:compta /var/mail/compta && chown commerciaux:commerciaux /var/mail/commerciaux && service postfix start && service dovecot start && postmap /etc/postfix/virtual && tail -f /dev/null" #service dovecot start && tail -f /dev/null"
     volumes:
-      - ./DMZ/Mail/main.cf:/etc/postfix/main.cf
-      - ./DMZ/Mail/virtual:/etc/postfix/virtual
-      #- ./DMZ/Mail/master.cf:/etc/postfix/master.cf
-      #- ./DMZ/Mail/dovecot.conf:/etc/dovecot/dovecot.conf
+      - ./DMZ/Mail/postfix/main.cf:/etc/postfix/main.cf
+      #- ./DMZ/Mail/postfix/master.cf:/etc/postfix
+      - ./DMZ/Mail/postfix/virtual:/etc/postfix/virtual
       - ./DMZ/Mail/mailbox/:/var/mail/
+      - ./DMZ/Mail/dovecot:/etc/dovecot
     networks:
       dmz_net:
         ipv4_address: 10.0.0.7
     container_name: mail
+  # dovecot:
+  #   image: dovecot
+  #   volumes:
+  #   ports:
 
 
   # Trusted zone
