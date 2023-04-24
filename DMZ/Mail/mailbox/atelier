@@ -5,8 +5,28 @@ Delivered-To: atelier@mail.woodytoys.be
 Received: from woodytoys.be (user1.adminii-2023_dmz_net [10.0.0.5])
 	by mail.woodytoys.be (Postfix) with SMTP id C05871B47A9
 	for <atelier@woodytoys.be>; Mon, 17 Apr 2023 13:21:11 +0000 (UTC)
+Status: RO
+Content-Length: 28
+Lines: 3
 
 Salut atelier
 
 Body du mail
+
+From contact@woodytoys.be  Sun Apr 23 08:46:11 2023
+Return-Path: <contact@woodytoys.be>
+X-Original-To: atelier@woodytoys.be
+Delivered-To: atelier@mail.woodytoys.be
+Received: from woodytoys.be (user1.adminii-2023_dmz_net [10.0.0.5])
+	by mail.woodytoys.be (Postfix) with SMTP id EBB391B61EB
+	for <atelier@woodytoys.be>; Sun, 23 Apr 2023 08:44:54 +0000 (UTC)
+Status: RO
+Content-Length: 84
+Lines: 5
+
+Ceci est le sujet du mail
+
+Et voici le contenu du mail
+Bien à vous,
+L'équipe l1-3
 

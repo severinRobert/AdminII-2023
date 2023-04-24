@@ -1,0 +1,14 @@
+$TTL 604800 ; 1 semaine
+$ORIGIN 131.92.164.in-addr.arpa.
+@ IN SOA ns.woodytoys.lab. root.woodytoys.lab. (
+    2013020905 ;serial
+    3600 ; refresh (1 hour)
+    3000 ; retry (50 minutes)
+    4619200 ; expire (7 weeks 4 days 11 hours 6 minutes 40 seconds)
+    604800 ; minimum (1 week)
+)
+@ IN NS ns.woodytoys.lab.
+
+165 IN PTR intranet.woodytoys.lab.
+165 IN PTR www.l1-3.ephec-ti.be.
+165 IN PTR b2b.l1-3.ephec-ti.be.
