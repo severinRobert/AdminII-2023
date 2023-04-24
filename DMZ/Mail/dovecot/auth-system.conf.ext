@@ -1,2 +1,2 @@
-auth_mechanisms = plain login
+auth_mechanisms = plain login pam
 !include auth-passwdfile.inc
