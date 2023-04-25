@@ -64,11 +64,11 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: woodytoys
-    deploy:
-      resources:
-        limits:
-          cpus: 0.50
-          memory: 100M
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: 0.50
+    #       memory: 100M
     volumes:
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
       # - ./database/my.cnf:/etc/mysql/my.cnf
@@ -86,7 +86,7 @@ services:
       - 53/tcp
     volumes:
       - ./trusted-zone/DNS/named.conf:/etc/bind/named.conf
-      - ./trusted-zone/DNS/db.woodytoys.be:/etc/bind/db.woodytoys.be
+      - ./trusted-zone/DNS/db.l1-3.ephec-ti.be:/etc/bind/db.l1-3.ephec-ti.be
       - ./trusted-zone/DNS/db.woodytoys.lab:/etc/bind/db.woodytoys.lab
       - ./trusted-zone/DNS/db.10.0.0:/etc/bind/db.10.0.0
     command: named -g

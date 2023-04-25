@@ -1,6 +1,6 @@
-$ORIGIN woodytoys.be.
+$ORIGIN l1-3.ephec-ti.be.
 $TTL	3600
-@	IN	SOA	ns.woodytoys.be.   root.woodytoys.be. (
+@	IN	SOA	ns.l1-3.ephec-ti.be.   root.l1-3.ephec-ti.be. (
 
     2022061457 ; serial
     21600      ; refresh after 6 hours
@@ -8,8 +8,8 @@ $TTL	3600
 	1814000     ; expire after 3 week
 	86400 )    ; minimum TTL of 1 day
 
-;Nom de serveur faisant autoriter sur le domaine woodytoys.be.
-@      IN      NS      ns.woodytoys.be.
+;Nom de serveur faisant autoriter sur le domaine l1-3.ephec-ti.be.
+@      IN      NS      ns.l1-3.ephec-ti.be.
 
 
 ;Le nom de mon serveur assigner à son IP
