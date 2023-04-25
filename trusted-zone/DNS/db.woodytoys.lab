@@ -12,8 +12,8 @@ $TTL	3600
 
 
 ;Le nom de mon serveur assigner à son IP
-ns			IN	A	10.0.0.4;
+ns			IN	A	10.0.0.2;
 
 ;Server Web
-intranet	IN	A	10.0.0.2;
+intranet	IN	A	172.16.0.3;
 

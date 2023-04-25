@@ -10,4 +10,8 @@ maillog_file=/var/log/postfix.log
 smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
 smtpd_sasl_type = dovecot
 virtual_transport = dovecot
-virtual_mailbox_maps = hash:/etc/postfix/virtual
+
+smtpd_sasl_auth_enable = yes
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+smtpd_sasl_security_options = noanonymous
