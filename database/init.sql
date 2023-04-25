@@ -21,11 +21,11 @@ CREATE TABLE `produit` (
 );
 
 
-CREATE USER 'b2b'@'10.0.0.2' IDENTIFIED BY 'password';
-CREATE USER 'intranet'@'10.0.0.2' IDENTIFIED BY 'password';
+CREATE USER 'b2b'@* IDENTIFIED BY 'password';
+CREATE USER 'intranet'@* IDENTIFIED BY 'password';
 
-GRANT SELECT ON woodytoys.produit TO 'b2b'@'10.0.0.2';
-GRANT SELECT,INSERT ON woodytoys.produit TO 'intranet'@'10.0.0.2';
+GRANT SELECT ON woodytoys.produit TO 'b2b'@*;
+GRANT SELECT,INSERT ON woodytoys.produit TO 'intranet'@*;
 
 --
 -- Déchargement des données de la table `produit`
