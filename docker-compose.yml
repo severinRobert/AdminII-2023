@@ -32,7 +32,7 @@ services:
       - 80:80
       - 443:443
     container_name: web
-    command: bash -c "docker-php-ext-install mysqli && docker-php-ext-enable mysqli && a2ensite b2b.l1-3.ephec-ti.be.conf && a2ensite www.l1-3.ephec-ti.be.conf && a2ensite intranet.woodytoys.lab.conf && service apache2 start && tail -f /dev/null"
+    command: bash -c "docker-php-ext-install mysqli && docker-php-ext-enable mysqli && a2ensite b2b.l1-3.ephec-ti.be.conf && a2ensite www.l1-3.ephec-ti.be.conf && a2ensite intranet.woodytoys.lab.conf && a2enmod ssl && service apache2 start && tail -f /dev/null"
     networks:
       DMZ_NET:
         ipv4_address: 172.16.0.3
