@@ -40,7 +40,7 @@ services:
   mail:
     build: ./DMZ/Mail
     ports:
-      - 25:25   # SMTP
+      - "25:25"   # SMTP
       - 110:110 # IMAP
       - 143:143 # POP
     command: bash -c "chown root:root /etc/postfix/virtual && chown contact:contact /var/mail/contact && chown atelier:atelier /var/mail/atelier && chown direction:direction /var/mail/direction && chown secretariat:secretariat /var/mail/secretariat && chown compta:compta /var/mail/compta && chown commerciaux:commerciaux /var/mail/commerciaux && service postfix start && service dovecot start && postmap /etc/postfix/virtual && tail -f /dev/null" #service dovecot start && tail -f /dev/null"

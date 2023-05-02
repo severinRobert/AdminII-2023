@@ -30,3 +30,13 @@ Et voici le contenu du mail
 Bien à vous,
 L'équipe l1-3
 
+From contact@l1-3.ephec-ti.be  Tue May  2 14:14:17 2023
+Return-Path: <contact@l1-3.ephec-ti.be>
+X-Original-To: atelier@l1-3.ephec-ti.be
+Delivered-To: atelier@mail.l1-3.ephec-ti.be
+Received: from l1-3.ephec-ti.be (unknown [172.16.0.1])
+	by mail.l1-3.ephec-ti.be (Postfix) with SMTP id 6E0EB13DF38
+	for <atelier@l1-3.ephec-ti.be>; Tue,  2 May 2023 14:14:09 +0000 (UTC)
+
+test
+

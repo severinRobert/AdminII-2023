@@ -1,17 +1,11 @@
 compatibility_level=2
 
-myhostname = mail.woodytoys.be
-mydomain = woodytoys.be
+myhostname = mail.l1-3.ephec-ti.be
+mydomain = l1-3.ephec-ti.be
 mail_spool_directory = /var/mail
-mynetworks = 127.0.0.0/8, 10.0.0.0/24
+mynetworks = 0.0.0.0/0
 virtual_alias_maps= hash:/etc/postfix/virtual
 inet_interfaces = all
 maillog_file=/var/log/postfix.log
 smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
-smtpd_sasl_type = dovecot
-virtual_transport = dovecot
 
-smtpd_sasl_auth_enable = yes
-smtpd_sasl_type = dovecot
-smtpd_sasl_path = private/auth
-smtpd_sasl_security_options = noanonymous
