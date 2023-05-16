@@ -45,13 +45,7 @@ services:
       - 143:143 # POP
       - 465:465
       - 993:993
-    command: bash -c "chown root:root /etc/postfix/virtual && chown contact:contact /var/mail/contact && chown atelier:atelier /var/mail/atelier && chown direction:direction /var/mail/direction && chown secretariat:secretariat /var/mail/secretariat && chown compta:compta /var/mail/compta && chown commerciaux:commerciaux /var/mail/commerciaux && service postfix start && service dovecot start && postmap /etc/postfix/virtual && tail -f /dev/null" #service dovecot start && tail -f /dev/null"
-    volumes:
-      - ./DMZ/Mail/postfix/main.cf:/etc/postfix/main.cf
-      #- ./DMZ/Mail/postfix/master.cf:/etc/postfix
-      - ./DMZ/Mail/postfix/virtual:/etc/postfix/virtual
-      - ./DMZ/Mail/mailbox/:/var/mail/
-      - ./DMZ/Mail/dovecot:/etc/dovecot
+    command: bash -c "postfix start && dovecot && tail -f /dev/null" 
     networks:
       DMZ_NET:
         ipv4_address: 172.16.0.4

@@ -1,14 +1,24 @@
-FROM ubuntu:focal
+FROM dovecot/dovecot
 
-RUN apt update && apt upgrade -y
-RUN apt install postfix dovecot-core dovecot-pop3d dovecot-imapd vim net-tools mailutils mutt telnet -y
+ARG DEBIAN_FRONTEND=noninteractive
 
-RUN useradd contact -p contact
-RUN useradd atelier -p atelier
-RUN useradd direction -p direction
-RUN useradd secretariat -p secretariat
-RUN useradd compta -p compta
-RUN useradd commerciaux -p commerciaux
+RUN apt-get update
+RUN apt-get install -y --no-install-recommends apt-utils
+RUN apt-get install -y postfix
+RUN apt-get install -y systemctl
+RUN apt-get install -y mailutils
+RUN apt-get install -y iputils-ping
+RUN apt-get install -y telnet
 
-RUN openssl req -new -x509 -days 3650 -nodes -newkey rsa:4096 -out /etc/ssl/certs/mailcert.pem -keyout /etc/ssl/private/mailcert.key -subj "/C=BE/ST=Braban-wallon/L=Wavre/O=Ephec/OU=IT/CN=mail.l1-3.ephec-ti.be"
+COPY main.cf /etc/postfix/
+COPY dovecot.conf /etc/dovecot/
+
+
+RUN useradd -rm -p $(openssl passwd -1 contact) contact
+RUN useradd -rm -p $(openssl passwd -1 b2b) b2b
+RUN useradd -rm -p $(openssl passwd -1 atelier) atelier
+
+#VOLUME /home
+
+
 
