@@ -12,6 +12,7 @@ RUN apt-get install -y telnet
 
 COPY main.cf /etc/postfix/
 COPY dovecot.conf /etc/dovecot/
+COPY master.cf /etc/postifx/
 
 
 RUN useradd -rm -p $(openssl passwd -1 contact) contact

@@ -44,7 +44,9 @@ services:
       - 110:110 # IMAP
       - 143:143 # POP
       - 465:465
+      - 587:587
       - 993:993
+      - 995:995
     command: bash -c "postfix start && dovecot && tail -f /dev/null" 
     networks:
       DMZ_NET:
