@@ -2,7 +2,7 @@
 
 <?php
 # Connexion à la base de données
-$db = mysqli_connect('10.0.0.6:3306', 'intranet', 'password', 'woodytoys') or die('Erreur de connection!');
+$db = mysqli_connect('10.2.0.2:3306', 'intranet', 'password', 'woodytoys') or die('Erreur de connection!');
 ?>
 
 <html>
