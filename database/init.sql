@@ -22,9 +22,9 @@ CREATE TABLE `produit` (
 
 
 CREATE USER 'b2b'@'172.16.0.3' IDENTIFIED BY 'password';
-CREATE USER 'intranet'@'172.16.0.3' IDENTIFIED BY 'password';
+CREATE USER 'intranet'@'10.0.0.3' IDENTIFIED BY 'password';
 GRANT SELECT ON woodytoys.produit TO 'b2b'@'172.16.0.3';
-GRANT SELECT,INSERT ON woodytoys.produit TO 'intranet'@'172.16.0.3';
+GRANT SELECT,INSERT ON woodytoys.produit TO 'intranet'@'10.0.0.3';
 
 
 --

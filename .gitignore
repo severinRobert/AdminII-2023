@@ -1,2 +1,2 @@
-./trusted-zone/DB/*
-./openvpn-data/*
+trusted-zone/DB/*
+openvpn-data/*

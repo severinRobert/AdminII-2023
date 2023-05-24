@@ -8,6 +8,7 @@ services:
       - 53:53/udp
       - 53:53/tcp
     volumes:
+      - ./DMZ/DNS/db.l1-3.ephec-ti.be:/etc/bind/db.l1-3.ephec-ti.be
       - ./DMZ/DNS/named.conf:/etc/bind/named.conf
       - ./DMZ/DNS/db.164.92.131:/etc/bind/db.164.92.131
     command: named -g
@@ -22,17 +23,15 @@ services:
       - ./DMZ/Web/default/index.html:/var/www/html/index.html
       - ./DMZ/Web/www.html:/var/www/www.l1-3.ephec-ti.be/index.html
       - ./DMZ/Web/b2b.php:/var/www/b2b.l1-3.ephec-ti.be/index.php
-      - ./DMZ/Web/intranet.php:/var/www/intranet.woodytoys.lab/index.php
       - ./DMZ/Web/b2b.l1-3.ephec-ti.be.conf:/etc/apache2/sites-available/b2b.l1-3.ephec-ti.be.conf
       - ./DMZ/Web/www.l1-3.ephec-ti.be.conf:/etc/apache2/sites-available/www.l1-3.ephec-ti.be.conf
-      - ./DMZ/Web/intranet.woodytoys.lab.conf:/etc/apache2/sites-available/intranet.woodytoys.lab.conf
     links:
       - db:database
     ports:
       - 80:80
       - 443:443
     container_name: web
-    command: bash -c "docker-php-ext-install mysqli && docker-php-ext-enable mysqli && a2ensite b2b.l1-3.ephec-ti.be.conf && a2ensite www.l1-3.ephec-ti.be.conf && a2ensite intranet.woodytoys.lab.conf && a2enmod ssl && service apache2 start && tail -f /dev/null"
+    command: bash -c "docker-php-ext-install mysqli && docker-php-ext-enable mysqli && a2ensite b2b.l1-3.ephec-ti.be.conf && a2ensite www.l1-3.ephec-ti.be.conf && a2enmod ssl && service apache2 start && tail -f /dev/null"
     networks:
       DMZ_NET:
         ipv4_address: 172.16.0.3
@@ -48,6 +47,8 @@ services:
       - 993:993
       - 995:995
     command: bash -c "postfix start && dovecot && tail -f /dev/null" 
+    volumes:
+      - ./DMZ/Mail/mailbox:/var/mail
     networks:
       DMZ_NET:
         ipv4_address: 172.16.0.4
@@ -67,7 +68,9 @@ services:
     #       cpus: 0.50
     #       memory: 100M
     volumes:
+      - ./db-data:/var/lib/mysql/data
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+        #- my-datavolume:/var/lib/mysql
       # - ./database/my.cnf:/etc/mysql/my.cnf
     networks:
       DB_NET:
@@ -89,6 +92,24 @@ services:
     networks:
       SECURED_NET:
         ipv4_address: 10.0.0.2
+  erp:
+    build: trusted-zone/Web
+    volumes:
+      - ./trusted-zone/Web/default/index.html:/var/www/html/index.html
+      - ./trusted-zone/Web/intranet.php:/var/www/intranet.woodytoys.lab/index.php
+      - ./trusted-zone/Web/intranet.woodytoys.lab.conf:/etc/apache2/sites-available/intranet.woodytoys.lab.conf
+    links:
+      - db:database
+    expose:
+      - 80
+      - 443
+    container_name: erp
+    command: bash -c "docker-php-ext-install mysqli && docker-php-ext-enable mysqli && a2ensite intranet.woodytoys.lab.conf && a2enmod ssl && service apache2 start && tail -f /dev/null"
+    networks:
+      SECURED_NET:
+        ipv4_address: 10.0.0.3
+
+
 
   # Internal network
   atelier:
@@ -98,7 +119,19 @@ services:
     networks:
       USER_NET:
         ipv4_address: 10.1.0.2
-
+  openvpn:
+    cap_add:
+     - NET_ADMIN
+    image: kylemanna/openvpn
+    container_name: openvpn
+    ports:
+     - "1194:1194/udp"
+    restart: always
+    volumes:
+     - ./openvpn-data/conf:/etc/openvpn
+    networks:
+      USER_NET:
+        ipv4_address: 10.1.0.50
 
 
 networks:

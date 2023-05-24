@@ -12,3 +12,4 @@ $ORIGIN 131.92.164.in-addr.arpa.
 165 IN PTR intranet.woodytoys.lab.
 165 IN PTR www.l1-3.ephec-ti.be.
 165 IN PTR b2b.l1-3.ephec-ti.be.
+165 IN PTR mail.l1-3.ephec-ti.be.

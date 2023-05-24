@@ -15,5 +15,5 @@ $TTL	3600
 ns			IN	A	10.0.0.2;
 
 ;Server Web
-intranet	IN	A	172.16.0.3;
+intranet	IN	A	10.0.0.3;
 
