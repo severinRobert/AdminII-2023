@@ -18,6 +18,7 @@ ns			IN	A	10.0.0.2;
 ;Server Web
 b2b	IN	A	172.16.0.3;
 www	IN	A	172.16.0.3;
+intranet 	IN	A	10.0.0.3;
 
 ;Server Mail
 mail	IN	A	172.16.0.4;

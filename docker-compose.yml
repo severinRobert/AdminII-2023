@@ -98,13 +98,14 @@ services:
       - ./trusted-zone/Web/default/index.html:/var/www/html/index.html
       - ./trusted-zone/Web/intranet.php:/var/www/intranet.woodytoys.lab/index.php
       - ./trusted-zone/Web/intranet.woodytoys.lab.conf:/etc/apache2/sites-available/intranet.woodytoys.lab.conf
+      - ./trusted-zone/Web/intranet.l1-3.ephec-ti.be.conf:/etc/apache2/sites-available/intranet.l1-3.ephec-ti.be.conf
     links:
       - db:database
     expose:
       - 80
       - 443
     container_name: erp
-    command: bash -c "docker-php-ext-install mysqli && docker-php-ext-enable mysqli && a2ensite intranet.woodytoys.lab.conf && a2enmod ssl && service apache2 start && tail -f /dev/null"
+    command: bash -c "docker-php-ext-install mysqli && docker-php-ext-enable mysqli && a2ensite intranet.woodytoys.lab.conf && a2ensite intranet.l1-3.ephec-ti.be.conf && a2enmod ssl && service apache2 start && tail -f /dev/null"
     networks:
       SECURED_NET:
         ipv4_address: 10.0.0.3
