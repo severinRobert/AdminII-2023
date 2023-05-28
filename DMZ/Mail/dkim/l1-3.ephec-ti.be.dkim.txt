@@ -1,0 +1,3 @@
+l1-3.ephec-ti.be.dkim._domainkey	IN	TXT	( "v=DKIM1; h=sha256; k=rsa; "
+	  "p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAs592qfx9BlwUTOHf3zo7ixM7za4seMKMymjNxNlHdcvAYhkgQZ845hfplLHDyGHcibRnTMnktI0z/PNV8YXRcQOm4JUj70N0NmIhLzw11ha6Serxrs/FVR/Q19045F0ZDW/Run+6H5lO2vKnVQFM331Dnd1dEi+1yfR71ESx92RSmkjvUUyowib57F8CC/Q1OZbOBrGs1HWpPD"
+	  "iU7y1GdNMATkSWm/ycFexjNg1XnAcHpCjAgMnhPVrBauk2kldrr/rwlfISijsE+WCcmrWp7edgV4IJ/9pCzxj6C+PWti4cv6yS6d4WX9ocbURIKcnznEEr8TlxozcB1dYPE4HqvQIDAQAB" )  ; ----- DKIM key l1-3.ephec-ti.be.dkim for l1-3.ephec-ti.be

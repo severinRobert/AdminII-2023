@@ -46,7 +46,7 @@ services:
       - 587:587
       - 993:993
       - 995:995
-    command: bash -c "postfix start && dovecot && tail -f /dev/null" 
+    command: bash -c "service opendkim start && postfix start && dovecot && tail -f /dev/null" 
     volumes:
       - ./DMZ/Mail/mailbox:/var/mail
     networks:

@@ -1,2 +1,3 @@
 trusted-zone/DB/*
 openvpn-data/*
+DMZ/Mail/mailbox/*
