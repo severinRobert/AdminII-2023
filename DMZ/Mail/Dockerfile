@@ -18,9 +18,9 @@ COPY dkim/l1-3.ephec-ti.be.dkim.private /etc/opendkim/keys/
 COPY dkim/l1-3.ephec-ti.be.dkim.txt /etc/opendkim/keys/
 
 COPY dkim/opendkim.conf /etc/
-COPY dkim/signtable /etc/opendkim/
-COPY dkim/keytable /etc/opendkim/
-COPY dkim/internalhosts /etc/opendkim/
+COPY dkim/SigningTable /etc/opendkim/
+COPY dkim/KeyTable /etc/opendkim/
+COPY dkim/TrustedHosts /etc/opendkim/
 
 COPY dmarc/opendmarc.conf /etc/
 COPY dmarc/ignore.hosts /etc/opendmarc/
